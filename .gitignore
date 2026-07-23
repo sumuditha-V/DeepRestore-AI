@@ -1,0 +1,44 @@
+# ===== Python =====
+venv/
+.venv/
+env/
+.env
+.env/
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+*.egg-info/
+
+# ===== Node / React =====
+node_modules/
+frontend/build/
+
+# ===== Trained models & weights (large binaries) =====
+*.h5
+*.keras
+*.pt
+*.pth
+*.onnx
+
+# ===== Runtime artifacts (regenerated at run time) =====
+backend/uploads/
+backend/results/
+backend/output/
+server.log
+*.log
+
+# ===== Datasets (downloaded via scripts, not committed) =====
+train_data/
+data/
+datasets/
+
+# ===== OS / IDE =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== Claude Code local settings =====
+.claude/settings.local.json
