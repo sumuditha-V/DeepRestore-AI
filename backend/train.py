@@ -37,7 +37,7 @@ NOISE_LEVELS = [0.05, 0.1, 0.15, 0.2, 0.25]
 def parse_args():
     p = argparse.ArgumentParser(description="Train DeepRestore AI denoiser.")
     p.add_argument("--model", choices=["dncnn", "unet"], default="dncnn")
-    p.add_argument("--epochs", type=int, default=60)
+    p.add_argument("--epochs", type=int, default=100)
     p.add_argument("--batch-size", type=int, default=16)
     p.add_argument("--patch-size", type=int, default=64)
     p.add_argument("--lr", type=float, default=1e-3)
@@ -82,9 +82,9 @@ def main():
             os.path.join(MODEL_DIR, "denoiser_best.h5"),
             monitor=monitor, save_best_only=True, mode="min", verbose=1),
         tf.keras.callbacks.EarlyStopping(
-            monitor=monitor, patience=8, restore_best_weights=True, verbose=1),
+            monitor=monitor, patience=15, restore_best_weights=True, verbose=1),
         tf.keras.callbacks.ReduceLROnPlateau(
-            monitor=monitor, factor=0.5, patience=4, min_lr=1e-6, verbose=1),
+            monitor=monitor, factor=0.5, patience=5, min_lr=1e-6, verbose=1),
         tf.keras.callbacks.TensorBoard(
             log_dir=os.path.join(OUTPUT_DIR, "logs")),
     ]
