@@ -1,0 +1,19 @@
+# ===== Core ML / Computer Vision =====
+tensorflow                    # denoising autoencoder
+numpy
+opencv-python
+scikit-image                  # PSNR / SSIM metrics
+matplotlib
+tqdm
+
+# ===== Web API =====
+flask
+flask-cors
+flask-limiter
+werkzeug
+
+# ===== OCR + NLP (Phase 2: document restoration) =====
+pytesseract                   # requires the Tesseract binary installed on the system
+pyspellchecker                # OCR spell-correction
+transformers                  # summarisation
+torch                         # backend for transformers
