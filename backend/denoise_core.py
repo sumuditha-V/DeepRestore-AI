@@ -202,3 +202,26 @@ def psnr(clean, other):
     if mse == 0:
         return 100.0
     return 20.0 * np.log10(1.0 / np.sqrt(mse))
+
+
+def make_flexible_input(loaded_model):
+    """Rebuild a model so it accepts any image size.
+
+    Models are trained on fixed-size patches (e.g. 64x64), but the denoisers are
+    fully convolutional, so at inference they can run on full images. We clone
+    the architecture with a variable spatial input (None, None, 3) and copy the
+    trained weights across.
+    """
+    config = loaded_model.get_config()
+    for layer in config.get("layers", []):
+        if layer.get("class_name") == "InputLayer":
+            c = layer["config"]
+            for key in ("batch_shape", "batch_input_shape"):
+                shape = c.get(key)
+                if shape and len(shape) == 4:
+                    shape = list(shape)
+                    shape[1], shape[2] = None, None
+                    c[key] = shape
+    flexible = tf.keras.Model.from_config(config)
+    flexible.set_weights(loaded_model.get_weights())
+    return flexible

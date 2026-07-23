@@ -28,7 +28,7 @@ import numpy as np
 import tensorflow as tf
 from skimage.metrics import structural_similarity as ssim
 
-from denoise_core import add_noise, list_images, mae, psnr
+from denoise_core import add_noise, list_images, mae, make_flexible_input, psnr
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEST_DIR = os.path.join(ROOT, "data", "test")
@@ -77,6 +77,8 @@ def main():
 
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     model = tf.keras.models.load_model(args.model, custom_objects={"mae": mae})
+    # Models are trained on fixed patches; allow any image size at eval time.
+    model = make_flexible_input(model)
 
     files = list_images(TEST_DIR)
     if not files:
